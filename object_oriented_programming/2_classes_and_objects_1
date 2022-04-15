@@ -1,0 +1,140 @@
+module Convertable
+  @@soft_top = true
+  
+  def is_convertable
+    puts if @@soft_top
+  end
+end
+
+class Vehicle
+  
+  @@objects_made = 0
+
+  attr_accessor :make, :model, :color
+  attr_reader :year
+
+
+  def initialize(mk,md,clr,yr)
+    self.make = mk 
+    @model = md
+    @color = clr
+    @year = yr
+    @speed = 0
+    @odometer = 0 
+    @@objects_made += 1
+  end
+
+  def self.cars_made 
+    puts "This function has made #{@@objects_made} cars."
+  end
+
+  
+  def odometer(miles)
+    @odometer += miles
+    puts "The odometer reading is now #{@odometer} miles."
+  end
+
+  def speed_up(new_speed_val)
+    @speed = new_speed_val
+    puts "The new speed is #{new_speed_val}"
+  end
+
+  
+  def slow_down(new_speed_val)
+    if @speed == 0
+      puts "You're already stopped!"     
+    else
+      @speed -= new_speed_val
+      if @speed < 0
+        puts "You've stopped"
+      else
+        puts "Your new speed value is #{@speed}"
+      end
+    end
+  end
+  
+
+  def shut_off
+    if @speed > 0
+      puts "You cant turn off the car until you've completely stopped!"
+    else
+      puts "The car has been shut off!"
+    end
+  end
+
+
+  def spray_paint(color)
+    @color = color
+    puts "The new color of your car is #{color}"
+  end
+  
+
+  def self.mpg(gas, miles)
+    miles_per_gallon =  miles / gas
+    puts "The MPG is #{miles_per_gallon}"
+  end
+
+  def to_s
+    puts "This car is a #{year} #{make} #{model} that is #{color} in color."
+  end
+
+end
+
+class MyCar < Vehicle
+  
+  TYPE = 'Pickup Truck'
+
+  def type 
+    puts "The #{self.make} #{self.model} is a #{TYPE}"
+  end
+
+end
+
+class SportsCar < Vehicle
+  include Convertable
+end 
+
+RAM = MyCar.new("Ram", "1500", "silver", 2019)
+RAM.speed_up(28)
+RAM.slow_down(25)
+RAM.shut_off
+RAM.spray_paint("Granite")
+RAM.odometer(2)
+MyCar.mpg(15,250)
+RAM.to_s
+RAM.type
+
+camero = SportsCar.new("Chevy", "Camero", "blue", 2021)
+camero.is_convertable
+
+puts Vehicle.cars_made
+puts "--#{SportsCar} class Method Lookup--"
+puts Vehicle.ancestors
+
+
+puts "\n\n\n"
+
+
+class Student
+  
+  def initialize(name, grade)
+    @name = name
+    @grade = grade
+  end
+
+  def is_better_than?(person_2)
+    puts "Well done!" if @grade > person_2.get_grade 
+  end
+  
+  protected
+
+  def get_grade
+    @grade
+  end
+end
+
+
+joe = Student.new("Joe", 26)
+matt = Student.new("Matt", 89)
+
+matt.is_better_than?(joe)
