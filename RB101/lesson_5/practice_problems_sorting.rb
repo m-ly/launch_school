@@ -208,22 +208,60 @@ hsh = {
   'marrow' => {type: 'vegetable', colors: ['green'], size: 'large'},
 }
 
-fruit_hsh = []
-hsh.map do |name, descriptors|
-  descriptors.each do | key, value |
-    if key == :colors
-      value.each do |color|
-       fruit_hsh << color.upcase
-      end
-    elsif key == :size
-      fruit_hsh << value.capitalize
+
+fruit_hsh = hsh.map do |name, descriptors|
+  if descriptors[:type] == 'fruit'
+    descriptors[:colors].map do |color|
+      color.upcase
     end
+  elsif descriptors[:type] == 'vegetable'
+    descriptors[:size].capitalize
   end
 end
+  
 p fruit_hsh
-
 
 #15
 puts "\n\n#15\n"
 
-#output -> 
+#output -> return an array which contains only the hashes where all the integers are even.
+
+arr = [{a: [1, 2, 3]}, {b: [2, 4, 6], c: [3, 6], d: [4]}, {e: [8], f: [6, 10]}]
+
+sorted_arr = arr.select do |dict|
+  dict.all? do | keys, ele|
+    ele.all? { |num| num.even? }
+  end
+end
+
+p sorted_arr
+
+#16
+puts "\n\n#16\n"
+
+#input --> 
+#output a string uuid consisting 32 hexadecimal characters, and is typically broken into 5 sections like this 8-4-4-4-12 and represented as a string.
+
+# Rules
+# For each space the program will need to pick random letters from range a..zA..Z
+# For each space the program will need to pick a random number from 0..9
+# 
+
+
+# Algorithm 
+
+def make_uuid 
+  uuid = ""
+  characters = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+
+  32.times do |char|
+    char = characters.sample.to_s
+    uuid += char
+  end
+  uuid.insert(8, '-')
+  uuid.insert(13, '-')
+  uuid.insert(18, '-')
+  uuid.insert(23, '-')  
+end
+
+puts make_uuid

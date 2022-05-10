@@ -1,0 +1,7 @@
+app_header:  "***Calculator App***"
+num_1_prompt: "Enter a number to proceed: "
+num_2_prompt: "Enter a 2nd number: "
+op_prompt: "Enter the operation you would like to perform: + , -  , * , or  /"
+msg_error: "Please enter a valid number"
+op_error: "I'm sorry, which operation would you like to perform?"
+repeat_msg: "Press 'Y' to perform another calculation"
