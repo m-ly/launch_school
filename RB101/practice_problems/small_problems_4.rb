@@ -203,7 +203,7 @@ p running_total([14, 11, 7, 15, 20]) == [14, 25, 32, 47, 67]
 p running_total([3]) == [3]
 p running_total([]) == []
 
-#7
+#7 TODO
 puts "\n#7\n\n"
 #input - string
 #output - input string converted to an integer
@@ -217,12 +217,82 @@ puts "\n#7\n\n"
 # -- Without to_i or built in functions you will need a way to map the existing string to an integer
 # -- set up a hash with the keys being string value and values being the integers
 # -- iterate through the string and return the hash values
+# -- you will need to multiply each returned value by a base 10 * the iteration to get the full number
 
 def string_to_integer(str)
   numbers_hash = {'0'=> 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9}
-  collection_hash = {}
-  
+  digit = 0
+  integer = 0 
+  str.each_char do |char|
+    integer = numbers_hash[char]
+    integer *= 10
+  end
+  integer
 end
 
 p string_to_integer('4321') #== 4321
 p string_to_integer('570') #== 570
+
+
+#8 TODO
+puts "\n\n#8\n"
+# input ->
+# output ->
+# Rules
+# Alogorithm
+
+
+#9 
+puts "\n#9\n\n"
+# inputs -> integer
+# output ->  string
+# Rules 
+# -- You cannot use the to_s method
+# -- method takes a positive integer or 0 and converts it into a string
+# Alogorithm
+# - initialize an empty string
+# - with has that has the int as the key, and the str as the value
+# -- iterate by dividing by 10s spot to find the remainder which will give access to the key 
+# -- concatenate string value to the str 
+
+
+
+def integer_to_string(int)
+  str = ' '
+  str_hash = { 0 => '0', 1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9'}
+
+  loop do
+    int, remainder = int.divmod(10)
+    str.prepend(str_hash[remainder])
+    break if int == 0
+  end
+  str.strip
+end
+
+
+p integer_to_string(4321) == '4321'
+p integer_to_string(0) == '0'
+p integer_to_string(5000) == '5000'
+
+#10
+puts "\n\n#10\n"
+#input - integer
+#output - string represetning integer value an + or - sign
+#rules
+
+#algorithm
+
+def signed_integer_to_string(int)
+  str = ''
+  if int < 0
+    str = '-' + integer_to_string(int.abs)
+  elsif int == 0
+    str = integer_to_string(int)
+  else
+    str = '+' + integer_to_string(int)
+  end 
+end
+
+p signed_integer_to_string(4321) == '+4321'
+p signed_integer_to_string(-123) == '-123'
+p signed_integer_to_string(0) == '0'
