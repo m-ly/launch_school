@@ -7,6 +7,7 @@ def initialize_deck
   all_cards = suit.product(cards)
 end
 
+#input is an array of 2 element arrays, output is each array mutated to a concatenated string 
 def show_hand(hand)
   converted_cards = []
   hand.each do |card|
@@ -16,7 +17,7 @@ def show_hand(hand)
 end
 
 #input is an array - output is a copy of the array that has first element hidden
-def show_computer_hand(hand)
+def hide_computer_hand(hand)
   comp_hand = show_hand(hand)
   comp_hand[0] = "**"
   comp_hand
@@ -37,36 +38,31 @@ def draw_card(deck)
   card
 end
 
+
 # input is an array - output is the sum of the numberical value of the array 
 # if the value is over 21 -> 10 is subtracted from the total
-def sum_hand(cards)
+def sum_cards(hand)
   totals = []
-  cards.each do |card|
-    value = card.pop
+  sum = 0
+  hand.each do |card|
+    p card 
     case 
-    when value == 'A'
-      totals << 11
-    when FACE_CARDS.include?(value)
-      totals << 10
+    when card[1] == 'A'
+      sum += 11
+    when FACE_CARDS.include?(card[1])
+      sum += 10 
     else
-      totals <<  value.to_i
+      sum += card[1].to_i
     end
   end
-
-  if totals.sum > 21 && totals.include?('A')
-    totals.sum -= 10
-  end
-  totals.sum
+  p sum
 end
 
-# input is an array, and user input string  - output is nil or an array
-def hit_again(cards)
+# input is an array, and user input string  - output boolean
+def hit_again?(cards)
   puts "Would you like to hit? (Y/N)"
   answer = gets.chomp.downcase
-  if answer.start_with?('y')
-    new_card = draw_card(cards)
-  end
-  p new_card[0]
+  answer.start_with?('y')
 end
 
 # input is array the cards are summed and if the total is over 21 the method returns true
@@ -78,30 +74,37 @@ end
 def winner?()
 end
 
+#This takes  return of the  show_hand and  hide_hand fuctions and uses them as inputs to  return a string output to the screen
+def show_both_hands(player, computer)
+  puts "You are holding, #{show_hand(player)}."
+  puts ""
+  puts "The computer is holding #{show_hand(computer)}." 
+  puts ""
+end
+
+def show_winner(player, computer)
+  if sum_hand(player) == 21
+    puts "You win!"
+  elsif sum_hand(computer) == 21
+    puts "The computer is holding #{show_hand(computer_hand)}."
+    puts "The computer wins!"
+  end
+end
+
 ##################### Main Loop ###############################
 system 'clear'
 active_deck = initialize_deck()
 
-player_hand = initial_draw(active_deck)
-computer_hand = initial_draw(active_deck)
+player = initial_draw(active_deck)
+computer = initial_draw(active_deck)
 
-puts "You are holding, #{show_hand(player_hand)}."
-puts ""
-puts "The computer is holding #{show_computer_hand(computer_hand)}." 
-puts ""
+show_both_hands(player, computer)
+p player
 
-loop do 
-  if sum_hand(player_hand) == 21
-    puts "You win!"
-    break
-  elsif sum_hand(computer_hand) == 21
-    puts "The computer wins!"
-    break
-  else
-    player_hand << hit_again(active_deck)
-    p player_hand
-  end
-end
+p sum_hand(player)
+p sum_hand(computer)
+
+# Todo check if initial hands are a winner?
 
 
 

@@ -44,7 +44,7 @@ def play_game
 end
 
 # Rubocop disable: Metrics/MethodLength, Metrics/AbcSize
-def display_board(brd,score, num_wins)
+def display_board(brd, score, num_wins)
   system 'clear'
   puts "  First Player to #{num_wins} Wins!"
   puts "    P1: #{PLAYER}. Computer: #{COMPUTER}."
@@ -71,7 +71,7 @@ def display_options(num_wins)
   puts ''
   puts "1) Difficulty: {difficutlY}"
   puts ''
-  puts "2) Random player assignment: {player_assignemnt}"
+  puts "2) Change Player Order: Player is currently #{PLAYER}"
   puts ''
   puts "3) Games to win: #{num_wins}"
   puts ''
@@ -90,6 +90,10 @@ end
 
 def initialize_wins
   wins = 3
+end
+
+def player_markers
+  players = {'player' => PLAYER,' computer' => COMPUTER}
 end
 
 # input is a hash, output is list of the hash values that are empty
@@ -126,8 +130,7 @@ end
 # each subarray of winning combonation. If there is only one empty spot - methode returns true.
 def at_risk?(brd)
   WINNING_COMBOS.each do |combo|
-    if brd.value_at(combo).count(marker) == 2
-    end
+    brd.value_at(combo).count(marker) == 2
   end
 end
 
@@ -222,7 +225,7 @@ end
 
 #input is the player marker, this is a binary value so the output is reassignment of both markers to the opposite value
 def swap_marker(marker)
-  marker = PLAYER ? COMPUTER : PLAYER
+  marker = 'player' ? 'computer' : 'player'
 end
 
 
@@ -231,17 +234,18 @@ def change_player_order(marker)
   prompt('Would you like to change player order? (Y/N)')
   answer = gets.chomp.downcase
   if answer.start_with?('y')
-    puts "The player is now #{swap_marker(marker)}"
-    swap_marker(marker)
-  else
-    marker
+    marker = swap_marker(marker)
   end
+  puts "The player is now #{marker}"
+  sleep(1)
+  marker
 end
 
-p change_player_order(PLAYER)
+
   
 #------------------------ Main Loop ----------------------------------#
 wins = initialize_wins
+players = player_markers
 
 loop do
   intro_screen
@@ -283,7 +287,8 @@ loop do
         puts 'difficulty'
 
       when '2'
-        puts 'player assignment'
+        player = change_player_order(players)
+        
 
       when '3'
         wins = win_threshold(wins)
