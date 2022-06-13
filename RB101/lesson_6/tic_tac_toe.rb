@@ -125,21 +125,31 @@ def computer_mark(brd)
   puts "The computer chose #{mark}"
 end
 
-# input is a hash and the player marker inwinning_combonations. 
+# input is a hash and either marker in winning_combonations. 
 # This checks to see if there is only 1 empty spot in the 
 # each subarray of winning combonation. If there is only one empty spot - methode returns true.
 def at_risk?(brd)
   WINNING_COMBOS.each do |combo|
-    brd.value_at(combo).count(marker) == 2
+    brd.values_at(combo).count(PLAYER) == 2
   end
 end
 
+# Input is a hash
+# Output returns 
 def computer_offense(brd)
-
+  
 end
 
-def computer_defense(brd, marker)
-
+# input is board hash
+# returns 
+def computer_defense(brd)
+  if at_risk?(brd)
+    WINNING_COMBOS.each do |combo|
+      if brd.values_at(combo).count(PLAYER) == 2
+        brd[mark] = COMPUTER
+      end
+    end
+  end
 end
 
 # Inuput is hash, which is converted into an array and returns true or false if the array is empty
@@ -263,6 +273,7 @@ loop do
           display_board(board, score, wins)
           break if winner?(board)
 
+         
           computer_mark(board)
           display_board(board, score, wins)
           break if winner?(board)
