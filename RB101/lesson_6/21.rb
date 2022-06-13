@@ -46,8 +46,13 @@ def sum_cards(hand)
       sum += card.to_i
     end
   end
-  
+
   sum
+
+  if value.include?('A') && > 21
+    sum -= 10
+  end
+  
 end
 
 
